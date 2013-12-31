@@ -4,14 +4,12 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
-//Mobile Menu Trigger
-// .mobile-menu-icon {
-//   display: none;
-// }
+
 .menu {
  list-style-type: none;
  padding-left: 0;
  margin-left: 0;
+ background-color: #313131;
 }
 .menu__item {
   position: relative;
@@ -36,4 +34,9 @@
     padding: 5px;
     display: inline-block;
   }
+}
+.containerOff {
+	height: 50px;
+	width: 100%;
+	background-color: red;
 }
