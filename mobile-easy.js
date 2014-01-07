@@ -9,6 +9,7 @@
  * containerOffset: The class of a container to offset the height of the mobile menu
  * pushBody: true/false to push the body of the site over
  */
+
 (function ($) {
   $.fn.mobileEasy = function(options) {
     //Default Options
@@ -22,13 +23,15 @@
       itemClass: '.me-smi',
       containerOffset: '',
       pushBody: true,
-      closeButton: true
+      closeButton: true,
+      hoverIntent: true,
+      hoverIntentWait: 500
     }, options);
 
     //Initialize
     var windowWidth = 0;
     var containerOffset = 0;
-    
+
     $('li', settings.self).each(function(idx, li){
       //Add Classes to menu items
       $(this).addClass(settings.itemClass.replace('.',''));
@@ -37,11 +40,23 @@
 
     $(settings.mobileIcon).hide();
     $(settings.subClass).hide();
+    var hoverIntent;
     $(settings.itemClass).hover(
       function() {
+        if(settings.hoverIntent){
+            window.clearTimeout(hoverIntent);
+        }
         $('ul', $(this)).show();
       }, function() {
-        $('ul', $(this)).hide();
+        if(settings.hoverIntent){
+            var hoveredItem = $(this);
+            hoverIntent = window.setTimeout(function(){
+                $('ul', hoveredItem).hide();
+            }, settings.hoverIntentWait);
+        }else {
+            $('ul', $(this)).hide();
+        }
+
       }
     );
     if(settings.closeButton) {

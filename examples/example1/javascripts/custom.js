@@ -1,6 +1,6 @@
 (function ($) {
 	$('.menu').mobileEasy({
 	  mobileIcon: '.mobile-menu-icon',
-	  //containerOffset: '.containerOff',
+        hoverIntentWait: 1500
 	});
 }(jQuery));
