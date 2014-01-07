@@ -8,6 +8,10 @@
  * itemClass: the class to be placed on menu items
  * containerOffset: The class of a container to offset the height of the mobile menu
  * pushBody: true/false to push the body of the site over
+ * closeButtonsClass: the class placed on the close button
+ * closeButtonCustom: (True/False) Use a custom close button not placed by the plugin
+ * hoverIntent: (True/False) Have a hover intent
+ * hoverIntentWait: the time to wait for the hover intent 
  */
 
 (function ($) {
@@ -73,23 +77,23 @@
       if(settings.self.css('display') == 'none') {
         settings.self.show();
         $(settings.self).animate({
-          width: settings.maxWidth,
+          width: settings.maxWidth
         }, settings.speed);
         if(settings.pushBody) {
           $('body').animate({
-            right: settings.maxWidth,
+            right: settings.maxWidth
           });
         }
       }else {
 
         $(settings.self).animate({
-          width: 0,
+          width: 0
         }, settings.speed, function(){
           settings.self.hide();
         });
         if(settings.pushBody) {
           $('body').animate({
-            right: 0,
+            right: 0
           });
         }
       }
