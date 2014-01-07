@@ -36,7 +36,7 @@
     //Initialize
     var windowWidth = 0;
     var containerOffset = 0;
-
+    var hoverIntent;
     $('li', settings.self).each(function(idx, li){
       //Add Classes to menu items
       $(this).addClass(settings.itemClass.replace('.',''));
@@ -45,7 +45,7 @@
 
     $(settings.mobileIcon).hide();
     $(settings.subClass).hide();
-    var hoverIntent;
+
     $(settings.itemClass).hover(
       function() {
         if(settings.hoverIntent && windowWidth > settings.breakPoint){
