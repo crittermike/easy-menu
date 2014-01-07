@@ -11,7 +11,7 @@
  * closeButtonsClass: the class placed on the close button
  * closeButtonCustom: (True/False) Use a custom close button not placed by the plugin
  * hoverIntent: (True/False) Have a hover intent
- * hoverIntentWait: the time to wait for the hover intent 
+ * hoverIntentWait: the time to wait for the hover intent
  */
 
 (function ($) {
@@ -48,12 +48,12 @@
     var hoverIntent;
     $(settings.itemClass).hover(
       function() {
-        if(settings.hoverIntent){
+        if(settings.hoverIntent && windowWidth > settings.breakPoint){
             window.clearTimeout(hoverIntent);
         }
         $('ul', $(this)).show();
       }, function() {
-        if(settings.hoverIntent){
+        if(settings.hoverIntent && windowWidth > settings.breakPoint){
             var hoveredItem = $(this);
             hoverIntent = window.setTimeout(function(){
                 $('ul', hoveredItem).hide();
@@ -148,7 +148,10 @@
         .css('top', 'auto')
         .css('width', 'auto')
         .css('height', 'auto');
-        $(settings.closeButtonClass).css('visibility', 'hidden');
+      $(settings.closeButtonClass).css('visibility', 'hidden');
+      if(settings.pushBody) {
+          $('body').css('right', 0);
+      }
     }
   }
     
