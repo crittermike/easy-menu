@@ -23,7 +23,8 @@
       itemClass: '.me-smi',
       containerOffset: '',
       pushBody: true,
-      closeButton: true,
+      closeButtonClass: '.easy-menu-close',
+      closeButtonCustom: false,
       hoverIntent: true,
       hoverIntentWait: 500
     }, options);
@@ -59,15 +60,16 @@
 
       }
     );
-    if(settings.closeButton) {
+    if(settings.closeButtonCustom === false) {
       $(settings.self).append('<a class="easy-menu-close" href="javascrip:;">Close</a>');
       $('.easy-menu-close')
         .css('position', 'absolute')
         .css('top', 0)
-        .css('right', 0);
+        .css('right', 0)
+        .css('visibility', 'visible');
     }
     //Menu button clicks
-    $(settings.mobileIcon + ', .easy-menu-close').click(function(){
+    $(settings.mobileIcon + ', ' + settings.closeButtonClass).click(function(){
       if(settings.self.css('display') == 'none') {
         settings.self.show();
         $(settings.self).animate({
@@ -125,7 +127,7 @@
         .css('width', 0)
         .css('height', ($(document).outerHeight(true) - containerOffset))
         .hide();
-        
+      $(settings.closeButtonClass).css('visibility', 'visible');
     };
 
     function desktopMenu() {
@@ -142,6 +144,7 @@
         .css('top', 'auto')
         .css('width', 'auto')
         .css('height', 'auto');
+        $(settings.closeButtonClass).css('visibility', 'hidden');
     }
   }
     
