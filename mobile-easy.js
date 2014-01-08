@@ -19,7 +19,7 @@
     //Default Options
     var settings = $.extend({
       self: $(this),
-      breakPoint: '780',
+      breakPoint: '768',
       maxWidth: '70%',
       speed: '1000',
       mobileIcon: '.mobileIcon',
@@ -30,7 +30,8 @@
       closeButtonClass: '.easy-menu-close',
       closeButtonCustom: false,
       hoverIntent: true,
-      hoverIntentWait: 500
+      hoverIntentWait: 500,
+      touchFriendly: true
     }, options);
 
     //Initialize
@@ -43,23 +44,43 @@
       $('ul', this).addClass(settings.subClass.replace('.',''));
     });
 
+
+
     $(settings.mobileIcon).hide();
     $(settings.subClass).hide();
 
     $(settings.itemClass).hover(
       function() {
+        //Mouse In
+
         if(settings.hoverIntent && windowWidth > settings.breakPoint){
-            window.clearTimeout(hoverIntent);
+          window.clearTimeout(hoverIntent);
         }
+
+        if($(this).parents().eq(1).hasClass('easyMenu-show') === false){
+          console.log('PING');
+          $('.easyMenu-show > ul').hide();
+          $('.easyMenu-show').removeClass('easyMenu-show');
+        }
+        $('ul', $(this))
+          .parent()
+          .addClass('easyMenu-show');
         $('ul', $(this)).show();
       }, function() {
+        //Mouse Out
+
         if(settings.hoverIntent && windowWidth > settings.breakPoint){
-            var hoveredItem = $(this);
-            hoverIntent = window.setTimeout(function(){
-                $('ul', hoveredItem).hide();
-            }, settings.hoverIntentWait);
+          var hoveredItem = $(this);
+          hoverIntent = window.setTimeout(function(){
+            $('ul', hoveredItem)
+              .parent()
+              .removeClass('easyMenu-show');
+            $('ul', hoveredItem)
+              .removeClass('easyMenu-show')
+              .hide();
+          }, settings.hoverIntentWait);
         }else {
-            $('ul', $(this)).hide();
+          $('ul', $(this)).hide();
         }
 
       }
@@ -70,8 +91,9 @@
         .css('position', 'absolute')
         .css('top', 0)
         .css('right', 0)
-        .css('visibility', 'visible');
+        .css('visibility', 'hidden');
     }
+
     //Menu button clicks
     $(settings.mobileIcon + ', ' + settings.closeButtonClass).click(function(){
       if(settings.self.css('display') == 'none') {
@@ -112,7 +134,6 @@
       if(windowWidth >= settings.breakPoint && settings.self.css('position') !== 'relative') {
         desktopMenu();
       }
-
     }).resize();
 
     function mobileMenu() {
@@ -132,7 +153,7 @@
         .css('height', ($(document).outerHeight(true) - containerOffset))
         .hide();
       $(settings.closeButtonClass).css('visibility', 'visible');
-    };
+    }
 
     function desktopMenu() {
       //When our menu is in a desktop state
@@ -149,10 +170,11 @@
         .css('width', 'auto')
         .css('height', 'auto');
       $(settings.closeButtonClass).css('visibility', 'hidden');
+
       if(settings.pushBody) {
-          $('body').css('right', 0);
+        $('body').css('right', 0);
       }
     }
   }
-    
+
 }(jQuery));
