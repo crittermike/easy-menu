@@ -32,7 +32,8 @@
       closeButtonCustom: false,
       hoverIntent: true,
       hoverIntentWait: 500,
-      touchFriendly: true
+      touchFriendly: true,
+      mobileEnabled: true
     }, options);
 
     //Initialize
@@ -135,22 +136,23 @@
         }
       }
     });
+    if(settings.mobileEnabled){
+      $(window).resize(function() {
 
-    $(window).resize(function() {
-      windowWidth = $(document).outerWidth(true);
-      // containerOffset 
-      if(settings.containerOffset !== '') {
-        containerOffset = $(settings.containerOffset).outerHeight(true);
-      }
-      //Check if we are past our breakpoint or not and if position is already triggered.
-      if(windowWidth < settings.breakPoint && settings.self.css('position') !== 'fixed') {
-        mobileMenu();
-      }
-      if(windowWidth >= settings.breakPoint && settings.self.css('position') !== 'relative') {
-        desktopMenu();
-      }
-    }).resize();
-
+        windowWidth = $(document).outerWidth(true);
+        // containerOffset
+        if(settings.containerOffset !== '') {
+          containerOffset = $(settings.containerOffset).outerHeight(true);
+        }
+        //Check if we are past our breakpoint or not and if position is already triggered.
+        if(windowWidth < settings.breakPoint && settings.self.css('position') !== 'fixed') {
+          mobileMenu();
+        }
+        if(windowWidth >= settings.breakPoint && settings.self.css('position') !== 'relative') {
+          desktopMenu();
+        }
+      }).resize();
+    }
     function mobileMenu() {
       //When are menu is in a mobile state
       $(settings.itemClass)
