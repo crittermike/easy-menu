@@ -24,6 +24,7 @@
       speed: '1000',
       mobileIcon: '.mobileIcon',
       subClass: '.me-smu',
+      superSubClass: '.me-ssmu',
       itemClass: '.me-smi',
       containerOffset: '',
       pushBody: true,
@@ -38,49 +39,63 @@
     var windowWidth = 0;
     var containerOffset = 0;
     var hoverIntent;
+
     $('li', settings.self).each(function(idx, li){
       //Add Classes to menu items
       $(this).addClass(settings.itemClass.replace('.',''));
-      $('ul', this).addClass(settings.subClass.replace('.',''));
+      $('ul', this).addClass(settings.superSubClass.replace('.',''));
+
+    });
+
+    $(settings.self.children()).each(function(idx, li){
+      $('> ul', this).removeClass(settings.superSubClass.replace('.',''));
+      $('> ul', this).addClass(settings.subClass.replace('.',''));
     });
 
 
 
     $(settings.mobileIcon).hide();
+    $(settings.superSubClass).hide();
     $(settings.subClass).hide();
 
     $(settings.itemClass).hover(
       function() {
         //Mouse In
-
         if(settings.hoverIntent && windowWidth > settings.breakPoint){
           window.clearTimeout(hoverIntent);
         }
 
-        if($(this).parents().eq(1).hasClass('easyMenu-show') === false){
-          console.log('PING');
-          $('.easyMenu-show > ul').hide();
-          $('.easyMenu-show').removeClass('easyMenu-show');
+        if($(this).hasClass('em-show') === false && $(this).closest(settings.subClass).hasClass('em-show') === false ) {
+          $('.em-show').hide().removeClass('em-show');
         }
-        $('ul', $(this))
-          .parent()
-          .addClass('easyMenu-show');
-        $('ul', $(this)).show();
+
+        if($(this).hasClass(settings.subClass)) {
+          $(this).addClass('em-show');
+        }else {
+          $(this).closest(settings.subClass).addClass('em-show');
+        }
+        $('> ul', $(this)).show();
+
       }, function() {
         //Mouse Out
 
         if(settings.hoverIntent && windowWidth > settings.breakPoint){
           var hoveredItem = $(this);
+          if ($(this).children(settings.superSubClass).length) {
+            $(this).children('li ul').hide();
+          }
+
           hoverIntent = window.setTimeout(function(){
-            $('ul', hoveredItem)
-              .parent()
-              .removeClass('easyMenu-show');
-            $('ul', hoveredItem)
-              .removeClass('easyMenu-show')
-              .hide();
+
+            if($(this).hasClass(settings.subClass)) {
+              $(this).removeClass('em-show');
+            }else {
+              $(this).closest(settings.subClass).removeClass('em-show');
+            }
+            $('> ul', hoveredItem).hide();
           }, settings.hoverIntentWait);
         }else {
-          $('ul', $(this)).hide();
+          $('> ul', $(this)).hide();
         }
 
       }
@@ -95,7 +110,7 @@
     }
 
     //Menu button clicks
-    $(settings.mobileIcon + ', ' + settings.closeButtonClass).click(function(){
+    $(settings.mobileIcon + ', ' + settings.closeButtonClass).click(function() {
       if(settings.self.css('display') == 'none') {
         settings.self.show();
         $(settings.self).animate({
@@ -121,7 +136,7 @@
       }
     });
 
-    $(window).resize(function(){
+    $(window).resize(function() {
       windowWidth = $(document).outerWidth(true);
       // containerOffset 
       if(settings.containerOffset !== '') {
@@ -160,6 +175,7 @@
       $(settings.itemClass)
         .css('display', 'inline-block')
         .css('width', 'auto');
+      $(settings.superSubClass).css('position', 'relative');
       $(settings.subClass).css('position', 'absolute');
       $(settings.mobileIcon).hide();
       settings.self
