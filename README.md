@@ -1,5 +1,5 @@
 [![Stories in Ready](https://badge.waffle.io/ckoppenhaver/mobile-easy.png?label=ready)](https://waffle.io/ckoppenhaver/mobile-easy)
-Mobile Easy
+Easy Menu
 =========
 
 Mobile Easy is a jQuery plugin to make mobile menus easier with a range of options. Some of the features of Mobile Easy are:
